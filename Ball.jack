@@ -1,0 +1,110 @@
+class Ball {
+
+   field int x, y;
+   field int velX, velY;
+   field int size;
+
+   constructor Ball new() {
+      let x_psoition = 127;
+      let y_postiion = 499;
+      let velX = 0;
+      let velY = -1;
+      let size = 2;
+      do draw();
+      return this;
+   }
+
+   method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+   }
+
+   method boolean collision(Array grid, int length, int height) {
+      let col = false;
+      
+      while(i < length) {
+         while(j < height) {
+            if(row[i][j]) {
+               if (i < x + size &
+                  i + 1 > x &
+                  j < y + size &
+                  j + 1 > y) {
+                     col = true;
+                     grid[x][y] = false;
+               }
+            }
+            j = j + 1;
+         }
+         i = i + 1;
+      }
+      return col;
+   }
+
+   /** Draws the square on the screen. */
+   method void draw() {
+      do Screen.setColor(true);
+      do Screen.drawRectangle(x, y, x + size, y + size);
+      return;
+   }
+
+   method void update() {
+      var int dirX, dirY;
+      let dirX = 1;
+      let dirY = 1;
+      if(do collision(blocks, width, height)) {
+         let dirY = -Random.randRange(-1);
+         let dirX = -Random.randRange(-1);
+      }
+      let x = dirX(velX);
+      let y = dirY(velY);
+      return;
+   }
+
+   /** Moves the square up by 2 pixels. */
+   method void moveUp() {
+      if (y > -1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+         let y = y - 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + size, y + 1);
+      }
+      return;
+    }
+
+   /** Moves the square down by 2 pixels. */
+   method void moveDown() {
+      if ((y + size) < 256) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + size, y + 1);
+         let y = y + 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, (y + size) - 1, x + size, y + size);
+      }
+      return;
+    }
+
+   /** Moves the square left by 2 pixels. */
+   method void moveLeft() {
+      if (x > -1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
+         let x = x - 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + 1, y + size);
+      }
+      return;
+    }
+
+   /** Moves the square right by 2 pixels. */
+   method void moveRight() {
+      if ((x + size) < 512) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + 1, y + size);
+         let x = x + 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle((x + size) - 1, y, x + size, y + size);
+      }
+      return;
+    }
+}

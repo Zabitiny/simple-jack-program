@@ -1,0 +1,62 @@
+class Paddle {
+
+    field int x;   //0..255 - left to right
+    field int y;   //0..511 - top to bottom
+    field int width;
+    field int height;
+
+    constructor Paddle new() {
+        let x = 107;
+        let y = 500;
+        let width = 38;
+        let height = 2;
+        return this;
+    }
+
+    method void dispose() {
+      do Memory.deAlloc(this);
+      return;
+    }
+
+    method boolean collision(Array grid, int length, int height) {
+      let col = false;
+      let size = 2;
+      while(i < length) {
+         while(j < height) {
+            if(row[i][j]) {
+               if(x < x + width &
+                   x + width > x &
+                   y < y + height &
+                   y + height > y) {
+                   col = true;
+                }
+            }
+            j = j + 1;
+         }
+         i = i + 1;
+      }
+      return col;
+    }
+
+    method void moveLeft() {
+      if (x > -1) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle((x + width) - 1, y, x + width, y + height);
+         let x = x - 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle(x, y, x + 1, y + height);
+      }
+      return;
+    }
+    
+    method void moveRight() {
+      if ((x + width) < 512) {
+         do Screen.setColor(false);
+         do Screen.drawRectangle(x, y, x + 1, y + height);
+         let x = x + 2;
+         do Screen.setColor(true);
+         do Screen.drawRectangle((x + width) - 1, y, x + width, y + height);
+      }
+      return;
+    }
+}

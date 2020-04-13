@@ -1,0 +1,65 @@
+class Main {
+
+    method void updateWallDisplay(Array grid) {
+        let i = 0;
+        let j = 0;
+        while(i < 6){
+            while(j < 256) {
+                Screen.setColor(grid[i][j]);
+                Screen.drawPixel(i, j);
+            }
+        }
+        return;
+    }
+
+    method boolean isGameOver(Array grid) {
+        let i = 0;
+        let j = 0;
+        while(i < 6){
+            while(j < 256) {
+                if(grid[i][j]){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    function void main() {
+        let Array rows = Array.new(6);
+        let int n = 6, i = 0;
+        while(i < 6) {
+            let rows[i] = Array.new(256);
+            let i = i+1;
+        }        
+        let i = 0;
+        let j = 0;
+        while(i < 6) {
+            while(j < 256) {
+                let rows[i][j] = true;
+                let j = j+1;
+            }
+            let i = i+1;
+        }
+        updateWallDisplay(rows);
+        let game = true;
+        var Ball ball;
+        var Paddle pad;
+        let ball = Ball.new();
+        let pad = Paddle.new();
+
+        while(do isGameOver(rows)) {
+            var char key;
+            let key = Keyboard.keyPressed();
+            if(key = 27) {
+                running = false;
+            }
+            ball.update(grid, width, height);
+            ball.draw();
+            paddle.update();
+            paddle.draw();
+        }
+
+        return;
+    }
+}
